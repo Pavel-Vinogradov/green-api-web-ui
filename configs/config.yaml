@@ -1,0 +1,6 @@
+http_client:
+  base_url: "https://api.green-api.com"
+  timeout: 5s
+
+server:
+  port: 8080
