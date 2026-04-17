@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GREEN-API Веб интерфейс</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>🚀 GREEN-API Веб интерфейс</h1>
+
+    <!-- Параметры подключения -->
+    <div class="section">
+        <h2>🔌 Параметры подключения</h2>
+        <div class="input-row">
+            <div class="form-group">
+                <label for="idInstance">ID инстанса</label>
+                <input type="text" id="idInstance" placeholder="Введите ID инстанса">
+            </div>
+            <div class="form-group">
+                <label for="apiTokenInstance">API токен инстанса</label>
+                <input type="text" id="apiTokenInstance" placeholder="Введите API токен">
+            </div>
+        </div>
+    </div>
+
+    <!-- Методы API -->
+    <div class="section">
+        <h2>📡 Методы API</h2>
+
+        <div class="button-group">
+            <button class="btn-primary" onclick="callGetSettings()">Получить настройки</button>
+            <button class="btn-secondary" onclick="callGetStateInstance()">Состояние инстанса</button>
+        </div>
+    </div>
+
+    <!-- Отправка сообщения -->
+    <div class="section">
+        <h2>💬 Отправка сообщения</h2>
+        <div class="form-group">
+            <label for="chatId">ID чата</label>
+            <input type="text" id="chatId" placeholder="79001234567@c.us">
+        </div>
+        <div class="form-group">
+            <label for="message">Сообщение</label>
+            <textarea id="message" placeholder="Введите сообщение..." style="min-height: 80px;"></textarea>
+        </div>
+        <div class="button-group">
+            <button class="btn-accent" onclick="callSendMessage()">Отправить сообщение</button>
+        </div>
+    </div>
+
+    <!-- Отправка файла -->
+    <div class="section">
+        <h2>📎 Отправка файла по ссылке</h2>
+        <div class="form-group">
+            <label for="fileChatId">ID чата</label>
+            <input type="text" id="fileChatId" placeholder="79001234567@c.us">
+        </div>
+        <div class="form-group">
+            <label for="urlFile">Ссылка на файл</label>
+            <input type="url" id="urlFile" placeholder="https://example.com/file.pdf">
+        </div>
+        <div class="form-group">
+            <label for="fileName">Имя файла</label>
+            <input type="text" id="fileName" placeholder="document.pdf">
+        </div>
+        <div class="form-group">
+            <label for="caption">Подпись (необязательно)</label>
+            <input type="text" id="caption" placeholder="Описание файла">
+        </div>
+        <div class="button-group">
+            <button class="btn-warning" onclick="callSendFileByUrl()">Отправить файл</button>
+        </div>
+    </div>
+
+    <!-- Ответ -->
+    <div class="section response-section">
+        <h2>📋 Ответ сервера</h2>
+        <div class="loading" id="loading">Загрузка...</div>
+        <textarea id="response" readonly placeholder="Ответ API появится здесь..."></textarea>
+    </div>
+</div>
+
+<script src="/js/script.js"></script>
+</body>
+</html>

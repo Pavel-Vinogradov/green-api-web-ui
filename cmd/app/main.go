@@ -41,14 +41,4 @@ func main() {
 	if err := fiberApp.Shutdown(); err != nil {
 		log.Printf("shutdown error: %v", err)
 	}
-
-	//// Initialize layers (dependency injection)
-	//greenAPIClient := infrastructure.NewHTTPClient(baseURL)
-	//service := application.NewService(greenAPIClient)
-	//handlers := presentation.NewHandlers(service)
-	//
-	//// Setup routes
-	//presentation.SetupRoutes(app, handlers)
-	//
-	//log.Fatal(app.Listen(":3000"))
 }
