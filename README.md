@@ -1,192 +1,231 @@
 # GREEN-API Web UI
 
-A web-based interface for interacting with GREEN-API WhatsApp API methods. This application provides a user-friendly HTML interface to test and use GREEN-API endpoints.
+Web-интерфейс для работы с GREEN-API WhatsApp API. Приложение предоставляет удобный HTML интерфейс для тестирования и использования методов GREEN-API.
 
-## Features
+## Возможности
 
-- **Connection Parameters**: Input fields for `idInstance` and `ApiTokenInstance`
-- **API Methods**:
-  - `getSettings` - Retrieve instance configuration
-  - `getStateInstance` - Get instance state
-  - `sendMessage` - Send text messages via WhatsApp
-  - `sendFileByUrl` - Send files via URL
-- **Response Display**: Read-only field showing API responses in JSON format
-- **Modern UI**: Clean, responsive design with gradient styling
+- **Параметры подключения**: Поля для ввода `idInstance` и `ApiTokenInstance`
+- **Методы API**:
+  - `getSettings` - Получение настроек инстанса
+  - `getStateInstance` - Получение состояния инстанса
+  - `sendMessage` - Отправка текстовых сообщений через WhatsApp
+  - `sendFileByUrl` - Отправка файлов по URL
+- **Отображение ответов**: Поле с ответами API в формате JSON
+- **Современный UI**: Чистый, адаптивный дизайн
 
-## Requirements
+## Требования
 
-- Go 1.26 or higher
-- Fiber v3 web framework
+- Go 1.25 или выше
+- Fiber v2 web framework
 
-## Installation
+## Установка
 
-1. Clone the repository:
+1. Клонируйте репозиторий:
 ```bash
-git clone https://github.com/your-username/green-api-web-ui.git
+git clone git@github.com:Pavel-Vinogradov/green-api-web-ui.git
 cd green-api-web-ui
 ```
 
-2. Install dependencies:
+2. Установите зависимости:
 ```bash
 go mod download
 ```
 
-## Running the Application
+## Запуск приложения
 
-### Local Development
+### Локальная разработка
 
-1. Start the server:
+1. Запустите сервер:
 ```bash
 go run cmd/app/main.go
 ```
 
-2. Open your browser and navigate to:
+2. Откройте браузер и перейдите по адресу:
 ```
-http://localhost:3000
+http://localhost:9090
 ```
 
-### Building for Production
+### Сборка для продакшена
 
-1. Build the executable:
+1. Соберите исполняемый файл:
 ```bash
 go build -o green-api-web-ui cmd/app/main.go
 ```
 
-2. Run the executable:
+2. Запустите приложение:
 ```bash
 ./green-api-web-ui
 ```
 
-## Usage
+## Docker
 
-1. **Create GREEN-API Instance**:
-   - Go to [GREEN-API](https://green-api.com) and create a free developer account
-   - Create a new instance in your dashboard
-   - Scan the QR code to connect your WhatsApp number
+### Сборка и запуск через Docker
 
-2. **Get Credentials**:
-   - Copy `idInstance` from your GREEN-API dashboard
-   - Copy `ApiTokenInstance` from your GREEN-API dashboard
-
-3. **Use the Web UI**:
-   - Enter your `idInstance` and `ApiTokenInstance` in the connection parameters section
-   - Click on the method buttons to test different API calls
-   - View the response in the read-only response field
-
-### Method Parameters
-
-#### Get Settings
-- No additional parameters required
-
-#### Get State Instance
-- No additional parameters required
-
-#### Send Message
-- **Chat ID**: WhatsApp chat ID (e.g., `79001234567@c.us`)
-- **Message**: Text message to send
-
-#### Send File by URL
-- **Chat ID**: WhatsApp chat ID (e.g., `79001234567@c.us`)
-- **File URL**: Public URL of the file to send
-- **File Name**: Name of the file (e.g., `document.pdf`)
-- **Caption** (optional): File description
-
-## Deployment
-
-### Deploy to Vercel/Netlify (Static HTML)
-
-Since this is a Go application, you can deploy it to various cloud platforms:
-
-### Option 1: Render.com
-1. Create a `render.yaml` file:
-```yaml
-services:
-  - type: web
-    name: green-api-web-ui
-    env: go
-    buildCommand: go build -o bin/main cmd/app/main.go
-    startCommand: ./bin/main
-    envVars:
-      - key: PORT
-        value: 10000
-```
-
-2. Push to GitHub and connect to Render
-
-### Option 2: Railway
-1. Install Railway CLI
-2. Login: `railway login`
-3. Deploy: `railway up`
-
-### Option 3: Heroku
-1. Create a `Procfile`:
-```
-web: green-api-web-ui
-```
-
-2. Deploy:
 ```bash
-heroku create
-git push heroku main
+# Сборка образа
+docker build -t green-api-web-ui .
+
+# Запуск контейнера
+docker run -d -p 9090:9090 --name green-api-web-ui green-api-web-ui
 ```
 
-### Option 4: VPS (DigitalOcean, AWS, etc.)
-1. SSH into your server
-2. Clone the repository
-3. Build and run:
+### Запуск через Docker Compose
+
 ```bash
-go build -o green-api-web-ui cmd/app/main.go
-./green-api-web-ui
+# Запуск
+docker-compose up -d
+
+# Остановка
+docker-compose down
+
+# Просмотр логов
+docker-compose logs -f
 ```
 
-4. Use a process manager like systemd or PM2 to keep it running
+### Настройка окружения
 
-## Project Structure
+Создайте файл `.env`:
+```bash
+HTTP_CLIENT_BASE_URL=https://api.green-api.com
+HTTP_CLIENT_TIMEOUT=5s
+SERVER_PORT=9090
+```
+
+## Использование
+
+1. **Создание инстанса GREEN-API**:
+   - Зарегистрируйтесь на [GREEN-API](https://green-api.com)
+   - Создайте новый инстанс в дашборде
+   - Отсканируйте QR-код для подключения WhatsApp
+
+2. **Получение учетных данных**:
+   - Скопируйте `idInstance` из дашборда GREEN-API
+   - Скопируйте `ApiTokenInstance` из дашборда GREEN-API
+
+3. **Использование веб-интерфейса**:
+   - Введите `idInstance` и `ApiTokenInstance` в поля параметров подключения
+   - Нажимайте кнопки методов для тестирования различных API вызовов
+   - Просматривайте ответы в поле ответов
+
+## Архитектура проекта
+
+Приложение следует принципам чистой архитектуры:
 
 ```
 green-api-web-ui/
 ├── cmd/
-│   └── app/
-│       └── main.go          # Main application file
-├── public/
-│   └── index.html          # HTML interface
-├── go.mod                  # Go module file
-├── go.sum                  # Go dependencies
-├── .gitignore
+│   ├── app/
+│   │   └── main.go              # Точка входа
+│   └── cli/
+│       └── app.go               # Инициализация приложения
+├── internal/
+│   ├── config/                  # Конфигурация
+│   │   ├── config.go
+│   │   ├── http_client_config.go
+│   │   ├── laoder.go
+│   │   └── server.go
+│   ├── container/               # DI контейнер
+│   │   └── container.go
+│   ├── delivery/
+│   │   └── http/
+│   │       └── routes/
+│   │           └── routes.go   # Роуты
+│   ├── handler/                 # HTTP хендлеры
+│   │   ├── api_handler.go
+│   │   └── home_handler.go
+│   ├── infrastructure/
+│   │   └── http/
+│   │       └── client.go       # HTTP клиент для Green API
+│   ├── interfaces/
+│   │   └── green_api/
+│   │       └── interface.go     # Интерфейсы use case
+│   └── usecase/
+│       └── green_api/
+│           └── usecase.go      # Бизнес-логика
+├── public/                      # Статические файлы
+│   ├── index.html
+│   ├── css/
+│   └── js/
+├── configs/
+│   └── config.yaml             # Конфигурация приложения
+├── Dockerfile
+├── docker-compose.yml
+├── go.mod
+├── go.sum
 └── README.md
 ```
 
-## API Endpoints
+## API эндпоинты
 
-The application exposes the following API endpoints:
+Приложение предоставляет следующие API эндпоинты:
 
-- `POST /api/getSettings` - Get instance settings
-- `POST /api/getStateInstance` - Get instance state
-- `POST /api/sendMessage` - Send a text message
-- `POST /api/sendFileByUrl` - Send a file by URL
+- `POST /api/getSettings` - Получить настройки инстанса
+- `POST /api/getStateInstance` - Получить состояние инстанса
+- `POST /api/sendMessage` - Отправить текстовое сообщение
+- `POST /api/sendFileByUrl` - Отправить файл по URL
 
-## Troubleshooting
+## Деплой на Timeweb
 
-### Connection Errors
-- Ensure your GREEN-API instance is active and authorized
-- Check that your `idInstance` and `ApiTokenInstance` are correct
-- Verify your internet connection
+### Подготовка
 
-### Message Not Sending
-- Ensure the chat ID format is correct (e.g., `79001234567@c.us`)
-- Check that your WhatsApp number is connected to the instance
-- Verify the instance state is `authorized`
+1. Установите Docker на сервере
+2. Скопируйте файлы проекта на сервер
+3. Настройте `.env` файл с нужными параметрами
 
-## License
+### Деплой
 
-This project is created as a test assignment for GREEN-API.
+```bash
+# Клонирование репозитория
+git clone <repository-url>
+cd green-api-web-ui
 
-## Contact
+# Запуск через docker-compose
+docker-compose up -d
 
-For questions about this project, please contact the developer.
+# Проверка статуса
+docker-compose ps
+```
 
-## GREEN-API Documentation
+### Настройка Nginx (опционально)
 
-For more information about GREEN-API, visit:
-- [Official Documentation](https://green-api.com/en/docs/)
-- [API Reference](https://green-api.com/en/docs/api/)
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+
+    location / {
+        proxy_pass http://localhost:9090;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+## Устранение проблем
+
+### Ошибки подключения
+- Убедитесь, что инстанс GREEN-API активен и авторизован
+- Проверьте правильность `idInstance` и `ApiTokenInstance`
+- Проверьте интернет-соединение
+
+### Сообщения не отправляются
+- Убедитесь в правильности формата ID чата (например, `79001234567@c.us`)
+- Проверьте, что ваш номер WhatsApp подключен к инстансу
+- Убедитесь, что состояние инстанса `authorized`
+
+### Проблемы с конфигурацией
+- Проверьте, что файл `configs/config.yaml` существует
+- Убедитесь, что viper находит конфигурационный файл
+- Проверьте логи при запуске приложения
+
+## Лицензия
+
+Этот проект создан как тестовое задание для GREEN-API.
+
+## Документация GREEN-API
+
+Для получения дополнительной информации о GREEN-API посетите:
+- [Официальная документация](https://green-api.com/en/docs/)
+- [Справочник API](https://green-api.com/en/docs/api/)
