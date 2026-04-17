@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: green-api-web-ui
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    environment:
+      - HTTP_CLIENT_BASE_URL=${HTTP_CLIENT_BASE_URL:-https://api.green-api.com}
+      - HTTP_CLIENT_TIMEOUT=${HTTP_CLIENT_TIMEOUT:-5s}
+      - SERVER_PORT=${SERVER_PORT:-9090}
+    volumes:
+      - ./configs:/root/configs:ro
+    networks:
+      - green-api-network
+
+networks:
+  green-api-network:
+    driver: bridge
