@@ -7,7 +7,6 @@ import (
 	"green-api-web-ui/internal/handler"
 	"green-api-web-ui/internal/infrastructure/http"
 	"green-api-web-ui/internal/usecase/green_api"
-	"log"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -41,7 +40,6 @@ func (app *App) RunApi() *fiber.App {
 	fb.Static("/css", "./public/css")
 	fb.Static("/js", "./public/js")
 
-	log.Printf("Loaded config - BaseURL: %s, Timeout: %v", app.container.Config.HTTPClient.BaseURL, app.container.Config.HTTPClient.Timeout)
 	httpClient := http.NewClient(app.container.Config.HTTPClient.BaseURL, app.container.Config.HTTPClient.Timeout)
 	useCase := green_api.NewUseCase(httpClient)
 	apiHandler := handler.NewAPIHandler(useCase)

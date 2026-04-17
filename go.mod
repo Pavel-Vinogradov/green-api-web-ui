@@ -1,6 +1,6 @@
 module green-api-web-ui
 
-go 1.26
+go 1.25.0
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.12

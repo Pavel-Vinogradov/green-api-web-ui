@@ -21,14 +21,10 @@ func LoadConfig() *AppConfig {
 		panic(err)
 	}
 
-	log.Printf("Config file used: %s", viper.ConfigFileUsed())
-
 	var cfg AppConfig
 	if err := viper.Unmarshal(&cfg); err != nil {
 		panic(err)
 	}
-
-	log.Printf("Loaded config: %+v", cfg)
 
 	return &cfg
 }
